@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gigi's Underground</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    body {
+      background-color: black;
+      color: white;
+      font-family: 'Press Start 2P', cursive;
+      text-align: center;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    a {
+      color: #66ff66;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin: 10px 15px;
+    }
+    a:hover {
+      color: #ffcc00;
+      text-decoration: underline;
+    }
+    img {
+      max-width: 90%;
+      height: auto;
+      margin-bottom: 20px;
+      border: 3px solid #66ff66;
+      border-radius: 10px;
+    }
+    .description {
+      font-size: 14px;
+      margin: 20px auto 40px;
+      max-width: 700px;
+      line-height: 1.4em;
+      text-align: left; /* Justificado a la izquierda */
+      white-space: pre-wrap; /* Para respetar saltos de línea */
+    }
+    .socials {
+      margin-top: 30px;
+    }
+    #lang-toggle {
+      background: #222;
+      color: #66ff66;
+      border: 2px solid #66ff66;
+      font-family: 'Press Start 2P', cursive;
+      cursor: pointer;
+      padding: 8px 16px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    #lang-toggle:hover {
+      background: #66ff66;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <h1>Gigi's Underground</h1>
+  <img src="banner.jpg" alt="Banner de Gigi's Underground" />
+  
+  <button id="lang-toggle">English</button>
+
+  <div class="description" id="description-text">
+    Bienvenidos a mi página personal (de desarrollador).<br>
+    Es una especie de diario virtual donde quisiera colocar música que me gusta, y cosas de mis intereses relacionados con la programación y el anime.<br>
+    Un lugar seguro para poder expresarme y compartir las cosas que disfruto, así como ayudar a otros en su viaje.<br>
+    Si desean chatear o saber algo, pueden hablarme en Twitter.
+  </div>
+
+  <div class="socials">
+    <a href="https://www.instagram.com/fufuuhh_/?next=%2Ftuusuario%2F" target="_blank" rel="noopener noreferrer">Instagram</a>
+    <a href="https://x.com/Fufuuhh" target="_blank" rel="noopener noreferrer">Twitter</a>
+    <span>Discord: fufuhh</span><br>
+    <a href="https://github.com/projectGigi" target="_blank" rel="noopener noreferrer">GitHub</a>
+  </div>
+
+  <script>
+    const btn = document.getElementById('lang-toggle');
+    const desc = document.getElementById('description-text');
+    
+    const texts = {
+      es: `Bienvenidos a mi página personal (de desarrollador).
+Es una especie de diario virtual donde quisiera colocar música que me gusta, y cosas de mis intereses relacionados con la programación y el anime.
+Un lugar seguro para poder expresarme y compartir las cosas que disfruto, así como ayudar a otros en su viaje.
+Si desean chatear o saber algo, pueden hablarme en Twitter.`,
+
+      en: `Welcome to my personal page (as a developer).
+It's a kind of virtual diary where I want to share music I like, and things about my interests related to programming and anime.
+A safe place to express myself and share the things I enjoy, as well as help others on their journey.
+If you want to chat or know something, you can reach me on Twitter.`
+    };
+    
+    let currentLang = 'es';
+    
+    btn.addEventListener('click', () => {
+      if(currentLang === 'es'){
+        desc.innerText = texts.en;
+        btn.innerText = 'Español';
+        currentLang = 'en';
+      } else {
+        desc.innerText = texts.es;
+        btn.innerText = 'English';
+        currentLang = 'es';
+      }
+    });
+  </script>
+</body>
+</html>
