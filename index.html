@@ -6,7 +6,6 @@
   <title>Gigi's Underground</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
     body {
       background-color: black;
       color: white;
@@ -14,9 +13,7 @@
       padding: 20px;
       margin: auto;
       max-width: 1000px;
-      position: relative;
     }
-
     .container {
       display: flex;
       flex-direction: row;
@@ -24,64 +21,54 @@
       gap: 30px;
       flex-wrap: wrap;
     }
-
     .profile {
       flex-shrink: 0;
-      border: 3px solid red;
+      border: 3px solid red; /* Cambiado a rojo */
       border-radius: 10px;
       padding: 10px;
       text-align: center;
       background-color: #111;
       width: 288px;
     }
-
     .profile img {
       width: 100%;
       height: auto;
       border-radius: 6px;
     }
-
     .profile-name {
       margin-top: 10px;
       font-size: 12px;
-      color: #ff4444;
+      color: red; /* Rojo también */
     }
-
     .main-content {
       flex: 1;
     }
-
     .description {
       font-size: 14px;
       line-height: 1.4em;
       text-align: left;
     }
-
     .description p {
       margin-bottom: 12px;
     }
-
     a {
-      color: #ff4444;
+      color: red;
       text-decoration: none;
       font-weight: bold;
       display: inline-block;
       margin: 10px 15px;
     }
-
     a:hover {
       color: #ffcc00;
       text-decoration: underline;
     }
-
     .socials {
       margin-top: 20px;
     }
-
     #lang-toggle {
       background: #222;
-      color: #ff4444;
-      border: 2px solid #ff4444;
+      color: red;
+      border: 2px solid red;
       font-family: 'Press Start 2P', cursive;
       cursor: pointer;
       padding: 8px 16px;
@@ -89,85 +76,68 @@
       border-radius: 6px;
       transition: background-color 0.3s, color 0.3s;
     }
-
     #lang-toggle:hover {
-      background: #ff4444;
+      background: red;
       color: black;
     }
 
-    .heart {
-      font-size: 28px;
-      animation: beat 1s infinite;
+    /* Corazón animado */
+    #heart {
+      font-size: 40px;
       color: red;
+      animation: heartbeat 1.5s infinite;
+      margin-bottom: 20px;
     }
-
-    @keyframes beat {
+    @keyframes heartbeat {
       0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.4); }
+      50% { transform: scale(1.3); }
     }
 
-    .music-player {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background-color: #111;
-      border-top: 3px solid red;
-      padding: 8px 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      z-index: 999;
-      flex-wrap: wrap;
+    /* Reproductor retro */
+    #player-container {
+      background: #111;
+      border: 3px solid red;
+      border-radius: 10px;
+      padding: 10px;
+      max-width: 400px;
+      margin-top: 30px;
+      color: red;
+      font-family: 'Press Start 2P', cursive;
     }
-
-    .marquee {
+    #song-title {
       overflow: hidden;
       white-space: nowrap;
-      flex: 1;
-      margin: 0 15px;
+      box-sizing: border-box;
+      animation: marquee 15s linear infinite;
+      padding-bottom: 10px;
+      border-bottom: 1px solid red;
     }
-
-    .marquee-text {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll-left 12s linear infinite;
-    }
-
-    @keyframes scroll-left {
-      0% { transform: translateX(0); }
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
       100% { transform: translateX(-100%); }
     }
-
-    .custom-controls {
+    #audio-controls {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      gap: 10px;
+      margin-top: 10px;
     }
-
-    .custom-controls button {
-      background-color: black;
-      color: red;
+    #audio-controls button {
+      background: transparent;
       border: 2px solid red;
-      padding: 4px 10px;
+      color: red;
       font-family: 'Press Start 2P', cursive;
-      font-size: 10px;
+      padding: 5px 10px;
       cursor: pointer;
-      border-radius: 4px;
+      border-radius: 6px;
+      transition: background-color 0.3s, color 0.3s;
     }
-
-    .custom-controls button:hover {
-      background-color: red;
+    #audio-controls button:hover {
+      background: red;
       color: black;
     }
-
-    .custom-controls input[type=range] {
-      accent-color: red;
-    }
-
-    canvas {
-      height: 40px;
-      width: 100%;
+    #volume-slider {
+      width: 100px;
     }
   </style>
 </head>
@@ -175,11 +145,14 @@
   <h1 style="text-align: center;">Gigi's Underground</h1>
 
   <div class="container">
+    <!-- 🖼️ Perfil -->
     <div class="profile">
-      <img src="perfil.jpg" alt="Foto de Gigi">
+      <img src="perfil.jpg" alt="Foto de Gigi" width="288" height="255">
       <div class="profile-name">projectGigi</div>
+      <div id="heart">💓</div>
     </div>
 
+    <!-- 📄 Contenido principal -->
     <div class="main-content">
       <button id="lang-toggle">English</button>
 
@@ -197,35 +170,29 @@
         <a href="https://github.com/projectGigi" target="_blank">GitHub</a>
       </div>
 
-      <p style="margin-top: 40px;">Gracias por visitar mi página <span class="heart">♥</span></p>
+      <!-- Reproductor -->
+      <div id="player-container">
+        <div id="song-title">Slowdive - When the Sun Hits</div>
+        <audio id="audio" src="sunhits.mp3" autoplay playsinline></audio>
+        <div id="audio-controls">
+          <button id="play-pause">Pause</button>
+          <input type="range" id="volume-slider" min="0" max="1" step="0.05" value="1">
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="music-player">
-    <audio id="player" src="sunhits.mp3"></audio>
-    <div class="custom-controls">
-      <button onclick="togglePlay()">▶/⏸</button>
-      <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5" onchange="adjustVolume(this.value)">
-    </div>
-    <div class="marquee">
-      <div class="marquee-text">🎵 Slowdive - When the Sun Hits 🎵</div>
-    </div>
-  </div>
-  <canvas id="visualizer"></canvas>
 
   <script>
+    // Idiomas
     const btn = document.getElementById('lang-toggle');
     const desc = document.getElementById('description-text');
-    const player = document.getElementById('player');
-    const canvas = document.getElementById('visualizer');
-    const ctx = canvas.getContext('2d');
-    let audioCtx, analyser, source, dataArray;
 
     const texts = {
       es: `<p>Bienvenidos a mi página personal (de desarrollador).</p>
 <p>Es una especie de diario virtual donde quisiera colocar música que me gusta, y cosas de mis intereses relacionados con la programación y el anime.</p>
 <p>Un lugar seguro para poder expresarme y compartir las cosas que disfruto, así como ayudar a otros en su viaje.</p>
 <p>Si desean chatear o saber algo, pueden hablarme en Twitter.</p>`,
+
       en: `<p>Welcome to my personal page (as a developer).</p>
 <p>It's a kind of virtual diary where I want to share music I like, and things about my interests related to programming and anime.</p>
 <p>A safe place to express myself and share the things I enjoy, as well as help others on their journey.</p>
@@ -239,45 +206,32 @@
       desc.innerHTML = texts[currentLang];
     });
 
-    function togglePlay() {
-      if (player.paused) {
-        player.play();
-        startVisualizer();
+    // Audio controls
+    const audio = document.getElementById('audio');
+    const playPauseBtn = document.getElementById('play-pause');
+    const volumeSlider = document.getElementById('volume-slider');
+
+    playPauseBtn.addEventListener('click', () => {
+      if(audio.paused){
+        audio.play();
+        playPauseBtn.textContent = 'Pause';
       } else {
-        player.pause();
+        audio.pause();
+        playPauseBtn.textContent = 'Play';
       }
-    }
+    });
 
-    function adjustVolume(val) {
-      player.volume = parseFloat(val);
-    }
+    volumeSlider.addEventListener('input', () => {
+      audio.volume = volumeSlider.value;
+    });
 
-    function startVisualizer() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        analyser = audioCtx.createAnalyser();
-        source = audioCtx.createMediaElementSource(player);
-        source.connect(analyser);
-        analyser.connect(audioCtx.destination);
-        analyser.fftSize = 64;
-        const bufferLength = analyser.frequencyBinCount;
-        dataArray = new Uint8Array(bufferLength);
-
-        function draw() {
-          requestAnimationFrame(draw);
-          analyser.getByteFrequencyData(dataArray);
-          ctx.fillStyle = '#000';
-          ctx.fillRect(0, 0, canvas.width, canvas.height);
-          const barWidth = canvas.width / bufferLength;
-          for (let i = 0; i < bufferLength; i++) {
-            const barHeight = dataArray[i] / 2;
-            ctx.fillStyle = `rgb(${barHeight + 100},0,0)`;
-            ctx.fillRect(i * barWidth, canvas.height - barHeight, barWidth - 2, barHeight);
-          }
-        }
-        draw();
-      }
-    }
+    // Intentar autoplay (puede fallar en algunos navegadores si no hay interacción)
+    window.addEventListener('load', () => {
+      audio.volume = volumeSlider.value;
+      audio.play().catch(() => {
+        playPauseBtn.textContent = 'Play';
+      });
+    });
   </script>
 </body>
 </html>
