@@ -10,10 +10,46 @@
       background-color: black;
       color: white;
       font-family: 'Press Start 2P', cursive;
-      text-align: center;
       padding: 20px;
-      max-width: 800px;
       margin: auto;
+      max-width: 1000px;
+    }
+    .container {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    .profile {
+      flex-shrink: 0;
+      border: 3px solid #66ff66;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      background-color: #111;
+      width: 288px;
+    }
+    .profile img {
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+    }
+    .profile-name {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #66ff66;
+    }
+    .main-content {
+      flex: 1;
+    }
+    .description {
+      font-size: 14px;
+      line-height: 1.4em;
+      text-align: left;
+    }
+    .description p {
+      margin-bottom: 12px;
     }
     a {
       color: #66ff66;
@@ -26,26 +62,8 @@
       color: #ffcc00;
       text-decoration: underline;
     }
-    img {
-      max-width: 90%;
-      height: auto;
-      margin-bottom: 20px;
-      border: 3px solid #66ff66;
-      border-radius: 10px;
-    }
-    .description {
-      font-size: 14px;
-      margin: 20px auto 40px;
-      max-width: 700px;
-      text-align: left;
-      white-space: normal;
-    }
-    .description p {
-      margin: 0 0 12px 0;
-      line-height: 1.4em;
-    }
     .socials {
-      margin-top: 30px;
+      margin-top: 20px;
     }
     #lang-toggle {
       background: #222;
@@ -65,23 +83,33 @@
   </style>
 </head>
 <body>
-  <h1>Gigi's Underground</h1>
-  <img src="banner.jpg" alt="Banner de Gigi's Underground" />
+  <h1 style="text-align: center;">Gigi's Underground</h1>
 
-  <button id="lang-toggle">English</button>
+  <div class="container">
+    <!-- 🖼️ Perfil -->
+    <div class="profile">
+      <img src="perfil.jpg" alt="Foto de Gigi">
+      <div class="profile-name">projectGigi</div>
+    </div>
 
-  <div class="description" id="description-text">
-    <p>Bienvenidos a mi página personal (de desarrollador).</p>
-    <p>Es una especie de diario virtual donde quisiera colocar música que me gusta, y cosas de mis intereses relacionados con la programación y el anime.</p>
-    <p>Un lugar seguro para poder expresarme y compartir las cosas que disfruto, así como ayudar a otros en su viaje.</p>
-    <p>Si desean chatear o saber algo, pueden hablarme en Twitter.</p>
-  </div>
+    <!-- 📄 Contenido principal -->
+    <div class="main-content">
+      <button id="lang-toggle">English</button>
 
-  <div class="socials">
-    <a href="https://www.instagram.com/fufuuhh_/?next=%2Ftuusuario%2F" target="_blank" rel="noopener noreferrer">Instagram</a>
-    <a href="https://x.com/Fufuuhh" target="_blank" rel="noopener noreferrer">Twitter</a>
-    <span>Discord: fufuhh</span><br>
-    <a href="https://github.com/projectGigi" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <div class="description" id="description-text">
+        <p>Bienvenidos a mi página personal (de desarrollador).</p>
+        <p>Es una especie de diario virtual donde quisiera colocar música que me gusta, y cosas de mis intereses relacionados con la programación y el anime.</p>
+        <p>Un lugar seguro para poder expresarme y compartir las cosas que disfruto, así como ayudar a otros en su viaje.</p>
+        <p>Si desean chatear o saber algo, pueden hablarme en Twitter.</p>
+      </div>
+
+      <div class="socials">
+        <a href="https://www.instagram.com/fufuuhh_/?next=%2Ftuusuario%2F" target="_blank">Instagram</a>
+        <a href="https://x.com/Fufuuhh" target="_blank">Twitter</a>
+        <span>Discord: fufuhh</span><br>
+        <a href="https://github.com/projectGigi" target="_blank">GitHub</a>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -101,17 +129,10 @@
     };
 
     let currentLang = 'es';
-
     btn.addEventListener('click', () => {
-      if(currentLang === 'es'){
-        desc.innerHTML = texts.en;
-        btn.innerText = 'Español';
-        currentLang = 'en';
-      } else {
-        desc.innerHTML = texts.es;
-        btn.innerText = 'English';
-        currentLang = 'es';
-      }
+      currentLang = currentLang === 'es' ? 'en' : 'es';
+      btn.innerText = currentLang === 'es' ? 'English' : 'Español';
+      desc.innerHTML = texts[currentLang];
     });
   </script>
 </body>
