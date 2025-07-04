@@ -14,10 +14,6 @@
       padding: 20px;
       max-width: 800px;
       margin: auto;
-      line-height: 1.2;
-      letter-spacing: 0.03em;
-      /* Para evitar saltos de línea extraños */
-      word-break: break-word;
     }
     a {
       color: #66ff66;
@@ -25,8 +21,6 @@
       font-weight: bold;
       display: inline-block;
       margin: 10px 15px;
-      line-height: 1.2;
-      letter-spacing: 0.03em;
     }
     a:hover {
       color: #ffcc00;
@@ -43,16 +37,15 @@
       font-size: 14px;
       margin: 20px auto 40px;
       max-width: 700px;
-      line-height: 1.3em;
-      letter-spacing: 0.03em;
       text-align: left;
-      white-space: pre-wrap; /* Respetar saltos de línea */
+      white-space: normal;
+    }
+    .description p {
+      margin: 0 0 12px 0;
+      line-height: 1.4em;
     }
     .socials {
       margin-top: 30px;
-      font-size: 14px;
-      line-height: 1.3;
-      letter-spacing: 0.03em;
     }
     #lang-toggle {
       background: #222;
@@ -64,8 +57,6 @@
       margin-bottom: 20px;
       border-radius: 6px;
       transition: background-color 0.3s, color 0.3s;
-      line-height: 1;
-      letter-spacing: 0.03em;
     }
     #lang-toggle:hover {
       background: #66ff66;
@@ -76,14 +67,14 @@
 <body>
   <h1>Gigi's Underground</h1>
   <img src="banner.jpg" alt="Banner de Gigi's Underground" />
-  
+
   <button id="lang-toggle">English</button>
 
   <div class="description" id="description-text">
-    Bienvenidos a mi página personal (de desarrollador).<br>
-    Es una especie de diario virtual donde quisiera colocar música que me gusta, y cosas de mis intereses relacionados con la programación y el anime.<br>
-    Un lugar seguro para poder expresarme y compartir las cosas que disfruto, así como ayudar a otros en su viaje.<br>
-    Si desean chatear o saber algo, pueden hablarme en Twitter.
+    <p>Bienvenidos a mi página personal (de desarrollador).</p>
+    <p>Es una especie de diario virtual donde quisiera colocar música que me gusta, y cosas de mis intereses relacionados con la programación y el anime.</p>
+    <p>Un lugar seguro para poder expresarme y compartir las cosas que disfruto, así como ayudar a otros en su viaje.</p>
+    <p>Si desean chatear o saber algo, pueden hablarme en Twitter.</p>
   </div>
 
   <div class="socials">
@@ -96,28 +87,28 @@
   <script>
     const btn = document.getElementById('lang-toggle');
     const desc = document.getElementById('description-text');
-    
-    const texts = {
-      es: `Bienvenidos a mi página personal (de desarrollador).
-Es una especie de diario virtual donde quisiera colocar música que me gusta, y cosas de mis intereses relacionados con la programación y el anime.
-Un lugar seguro para poder expresarme y compartir las cosas que disfruto, así como ayudar a otros en su viaje.
-Si desean chatear o saber algo, pueden hablarme en Twitter.`,
 
-      en: `Welcome to my personal page (as a developer).
-It's a kind of virtual diary where I want to share music I like, and things about my interests related to programming and anime.
-A safe place to express myself and share the things I enjoy, as well as help others on their journey.
-If you want to chat or know something, you can reach me on Twitter.`
+    const texts = {
+      es: `<p>Bienvenidos a mi página personal (de desarrollador).</p>
+<p>Es una especie de diario virtual donde quisiera colocar música que me gusta, y cosas de mis intereses relacionados con la programación y el anime.</p>
+<p>Un lugar seguro para poder expresarme y compartir las cosas que disfruto, así como ayudar a otros en su viaje.</p>
+<p>Si desean chatear o saber algo, pueden hablarme en Twitter.</p>`,
+
+      en: `<p>Welcome to my personal page (as a developer).</p>
+<p>It's a kind of virtual diary where I want to share music I like, and things about my interests related to programming and anime.</p>
+<p>A safe place to express myself and share the things I enjoy, as well as help others on their journey.</p>
+<p>If you want to chat or know something, you can reach me on Twitter.</p>`
     };
-    
+
     let currentLang = 'es';
-    
+
     btn.addEventListener('click', () => {
       if(currentLang === 'es'){
-        desc.innerText = texts.en;
+        desc.innerHTML = texts.en;
         btn.innerText = 'Español';
         currentLang = 'en';
       } else {
-        desc.innerText = texts.es;
+        desc.innerHTML = texts.es;
         btn.innerText = 'English';
         currentLang = 'es';
       }
