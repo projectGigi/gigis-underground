@@ -14,6 +14,7 @@
       padding: 20px;
       margin: auto;
       max-width: 1000px;
+      position: relative;
     }
 
     .container {
@@ -26,7 +27,7 @@
 
     .profile {
       flex-shrink: 0;
-      border: 3px solid #ff4444;
+      border: 3px solid red;
       border-radius: 10px;
       padding: 10px;
       text-align: center;
@@ -61,7 +62,7 @@
     }
 
     a {
-      color: #66ff66;
+      color: #ff4444;
       text-decoration: none;
       font-weight: bold;
       display: inline-block;
@@ -79,8 +80,8 @@
 
     #lang-toggle {
       background: #222;
-      color: #66ff66;
-      border: 2px solid #66ff66;
+      color: #ff4444;
+      border: 2px solid #ff4444;
       font-family: 'Press Start 2P', cursive;
       cursor: pointer;
       padding: 8px 16px;
@@ -90,82 +91,95 @@
     }
 
     #lang-toggle:hover {
-      background: #66ff66;
+      background: #ff4444;
       color: black;
     }
 
-    /* 🎶 Reproductor Retro */
-    .retro-player {
-      background-color: #111;
-      border: 3px double #ff4444;
-      padding: 15px;
-      margin-top: 50px;
-      border-radius: 10px;
-      text-align: center;
-      animation: fadeIn 1s ease-in-out;
-    }
-
-    .scrolling-title {
-      width: 100%;
-      overflow: hidden;
-      white-space: nowrap;
-      box-sizing: border-box;
-      border-bottom: 1px dashed #ff4444;
-      padding: 10px 0;
-      margin-bottom: 10px;
-    }
-
-    #scroll-text {
-      display: inline-block;
-      padding-left: 100%;
-      animation: scroll-text 12s linear infinite;
-      color: #66ff66;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 12px;
-    }
-
-    @keyframes scroll-text {
-      0% { transform: translateX(0%); }
-      100% { transform: translateX(-100%); }
-    }
-
-    audio {
-      width: 100%;
-      max-width: 300px;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ❤️ Corazón animado */
     .heart {
-      font-size: 24px;
-      text-align: center;
-      margin-top: 40px;
+      font-size: 28px;
       animation: beat 1s infinite;
-      color: #ff4444;
+      color: red;
     }
 
     @keyframes beat {
       0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.2); }
+      50% { transform: scale(1.4); }
+    }
+
+    .music-player {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #111;
+      border-top: 3px solid red;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 999;
+      flex-wrap: wrap;
+    }
+
+    .marquee {
+      overflow: hidden;
+      white-space: nowrap;
+      flex: 1;
+      margin: 0 15px;
+    }
+
+    .marquee-text {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll-left 12s linear infinite;
+    }
+
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .custom-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .custom-controls button {
+      background-color: black;
+      color: red;
+      border: 2px solid red;
+      padding: 4px 10px;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 10px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .custom-controls button:hover {
+      background-color: red;
+      color: black;
+    }
+
+    .custom-controls input[type=range] {
+      accent-color: red;
+    }
+
+    canvas {
+      height: 40px;
+      width: 100%;
     }
   </style>
 </head>
 <body>
-
   <h1 style="text-align: center;">Gigi's Underground</h1>
 
   <div class="container">
-    <!-- 🖼️ Perfil -->
     <div class="profile">
       <img src="perfil.jpg" alt="Foto de Gigi">
       <div class="profile-name">projectGigi</div>
     </div>
 
-    <!-- 📄 Contenido principal -->
     <div class="main-content">
       <button id="lang-toggle">English</button>
 
@@ -182,33 +196,36 @@
         <span>Discord: fufuhh</span><br>
         <a href="https://github.com/projectGigi" target="_blank">GitHub</a>
       </div>
+
+      <p style="margin-top: 40px;">Gracias por visitar mi página <span class="heart">♥</span></p>
     </div>
   </div>
 
-  <!-- 🎵 Reproductor Retro -->
-  <div class="retro-player">
-    <div class="scrolling-title">
-      <span id="scroll-text">♪ Slowdive - When the Sun Hits ♪</span>
+  <div class="music-player">
+    <audio id="player" src="sunhits.mp3"></audio>
+    <div class="custom-controls">
+      <button onclick="togglePlay()">▶/⏸</button>
+      <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5" onchange="adjustVolume(this.value)">
     </div>
-    <audio controls id="audio-player">
-      <source src="musica.mp3" type="audio/mpeg">
-      Tu navegador no soporta audio HTML.
-    </audio>
+    <div class="marquee">
+      <div class="marquee-text">🎵 Slowdive - When the Sun Hits 🎵</div>
+    </div>
   </div>
-
-  <!-- ❤️ Corazón -->
-  <div class="heart">❤️</div>
+  <canvas id="visualizer"></canvas>
 
   <script>
     const btn = document.getElementById('lang-toggle');
     const desc = document.getElementById('description-text');
+    const player = document.getElementById('player');
+    const canvas = document.getElementById('visualizer');
+    const ctx = canvas.getContext('2d');
+    let audioCtx, analyser, source, dataArray;
 
     const texts = {
       es: `<p>Bienvenidos a mi página personal (de desarrollador).</p>
 <p>Es una especie de diario virtual donde quisiera colocar música que me gusta, y cosas de mis intereses relacionados con la programación y el anime.</p>
 <p>Un lugar seguro para poder expresarme y compartir las cosas que disfruto, así como ayudar a otros en su viaje.</p>
 <p>Si desean chatear o saber algo, pueden hablarme en Twitter.</p>`,
-
       en: `<p>Welcome to my personal page (as a developer).</p>
 <p>It's a kind of virtual diary where I want to share music I like, and things about my interests related to programming and anime.</p>
 <p>A safe place to express myself and share the things I enjoy, as well as help others on their journey.</p>
@@ -221,6 +238,46 @@
       btn.innerText = currentLang === 'es' ? 'English' : 'Español';
       desc.innerHTML = texts[currentLang];
     });
+
+    function togglePlay() {
+      if (player.paused) {
+        player.play();
+        startVisualizer();
+      } else {
+        player.pause();
+      }
+    }
+
+    function adjustVolume(val) {
+      player.volume = parseFloat(val);
+    }
+
+    function startVisualizer() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        analyser = audioCtx.createAnalyser();
+        source = audioCtx.createMediaElementSource(player);
+        source.connect(analyser);
+        analyser.connect(audioCtx.destination);
+        analyser.fftSize = 64;
+        const bufferLength = analyser.frequencyBinCount;
+        dataArray = new Uint8Array(bufferLength);
+
+        function draw() {
+          requestAnimationFrame(draw);
+          analyser.getByteFrequencyData(dataArray);
+          ctx.fillStyle = '#000';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          const barWidth = canvas.width / bufferLength;
+          for (let i = 0; i < bufferLength; i++) {
+            const barHeight = dataArray[i] / 2;
+            ctx.fillStyle = `rgb(${barHeight + 100},0,0)`;
+            ctx.fillRect(i * barWidth, canvas.height - barHeight, barWidth - 2, barHeight);
+          }
+        }
+        draw();
+      }
+    }
   </script>
 </body>
 </html>
