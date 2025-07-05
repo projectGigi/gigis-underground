@@ -156,6 +156,48 @@
       50% { transform: scale(1.4); }
     }
 
+    .glitch {
+      position: relative;
+      color: white;
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .glitch::before {
+      animation: glitchTop 1s infinite linear alternate-reverse;
+      color: red;
+      top: -2px;
+    }
+
+    .glitch::after {
+      animation: glitchBottom 1s infinite linear alternate-reverse;
+      color: blue;
+      top: 2px;
+    }
+
+    @keyframes glitchTop {
+      0% { clip-path: inset(0 0 90% 0); }
+      25% { clip-path: inset(10% 0 85% 0); }
+      50% { clip-path: inset(20% 0 70% 0); }
+      75% { clip-path: inset(5% 0 90% 0); }
+      100% { clip-path: inset(0 0 90% 0); }
+    }
+
+    @keyframes glitchBottom {
+      0% { clip-path: inset(90% 0 0 0); }
+      25% { clip-path: inset(85% 0 5% 0); }
+      50% { clip-path: inset(70% 0 20% 0); }
+      75% { clip-path: inset(90% 0 0 0); }
+      100% { clip-path: inset(90% 0 0 0); }
+    }
+
     .music-player {
       position: fixed;
       bottom: 0;
@@ -188,104 +230,20 @@
       0% { transform: translateX(0); }
       100% { transform: translateX(-100%); }
     }
-
-    .custom-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .custom-controls button {
-      background-color: black;
-      color: red;
-      border: 2px solid red;
-      padding: 4px 10px;
-      font-family: 'Press Start 2P', cursive;
-      font-size: 10px;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-
-    .custom-controls button:hover {
-      background-color: red;
-      color: black;
-    }
-
-    .custom-controls input[type=range] {
-      accent-color: red;
-    }
-
-    canvas {
-      height: 40px;
-      width: 100%;
-    }
-
-    /* Estilo glitch */
-    .glitch {
-      position: relative;
-      color: white;
-      animation: glitch 1s infinite;
-    }
-    .glitch::before,
-    .glitch::after {
-      content: attr(data-text);
-      position: absolute;
-      left: 0;
-      width: 100%;
-    }
-    .glitch::before {
-      left: 2px;
-      text-shadow: -2px 0 red;
-      clip: rect(0, 900px, 0, 0);
-      animation: glitchTop 1s infinite linear;
-    }
-    .glitch::after {
-      left: -2px;
-      text-shadow: -2px 0 blue;
-      clip: rect(0, 900px, 0, 0);
-      animation: glitchBottom 1s infinite linear;
-    }
-
-    @keyframes glitch {
-      0% { transform: none; }
-      20% { transform: skew(0.5deg); }
-      40% { transform: skew(-0.5deg); }
-      60% { transform: skew(0.5deg); }
-      80% { transform: skew(-0.5deg); }
-      100% { transform: none; }
-    }
-    @keyframes glitchTop {
-      0% { clip: rect(0, 9999px, 0, 0); }
-      10% { clip: rect(0, 9999px, 15px, 0); }
-      20% { clip: rect(0, 9999px, 0, 0); }
-      30% { clip: rect(0, 9999px, 10px, 0); }
-      40% { clip: rect(0, 9999px, 0, 0); }
-      50% { clip: rect(0, 9999px, 20px, 0); }
-      60% { clip: rect(0, 9999px, 0, 0); }
-      70% { clip: rect(0, 9999px, 10px, 0); }
-      80% { clip: rect(0, 9999px, 0, 0); }
-      90% { clip: rect(0, 9999px, 15px, 0); }
-      100% { clip: rect(0, 9999px, 0, 0); }
-    }
-    @keyframes glitchBottom {
-      0% { clip: rect(0, 9999px, 0, 0); }
-      10% { clip: rect(15px, 9999px, 9999px, 0); }
-      20% { clip: rect(0, 9999px, 0, 0); }
-      30% { clip: rect(10px, 9999px, 9999px, 0); }
-      40% { clip: rect(0, 9999px, 0, 0); }
-      50% { clip: rect(20px, 9999px, 9999px, 0); }
-      60% { clip: rect(0, 9999px, 0, 0); }
-      70% { clip: rect(10px, 9999px, 9999px, 0); }
-      80% { clip: rect(0, 9999px, 0, 0); }
-      90% { clip: rect(15px, 9999px, 9999px, 0); }
-      100% { clip: rect(0, 9999px, 0, 0); }
-    }
   </style>
 </head>
 <body>
-<!-- RESTO DEL CÓDIGO NO MODIFICADO HASTA EL TÍTULO -->
-  <h1 style="text-align: center; display: flex; justify-content: center; align-items: center; gap: 10px;">
-    <img src="minecraft.png" alt="Icono de personaje Minecraft" width="32" height="32" style="display: inline-block;">
-    <span class="glitch" data-text="Gigi's Underground">Gigi's Underground</span>
-  </h1>
-<!-- CONTINÚA EL RESTO SIN CAMBIOS -->
+  <button id="menu-btn">☰</button>
+  <nav id="sidebar">
+    <a href="#">Inicio</a>
+    <a href="#">Música</a>
+    <a href="#">Contacto</a>
+    <a href="#">Sobre mí</a>
+  </nav>
+
+  <h1 class="glitch" data-text="Gigi's Underground">Gigi's Underground</h1>
+
+  <!-- Resto del contenido que eliminaste sin querer -->
+  <p style="margin-top: 40px;">Gracias por visitar mi página <span class="heart">♥</span></p>
+</body>
+</html>
