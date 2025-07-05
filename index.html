@@ -387,10 +387,9 @@
       }
     }
   </script>
-<!-- Tu código HTML hasta ahora, sin cambios -->
-<!-- ... -->
 
-<!-- 👇 Agrega esto justo antes del cierre </body> -->
+
+
 <div id="npc-dialog-container" style="position: fixed; bottom: 70px; left: 20px; z-index: 1500; cursor: pointer;">
   <img id="npc-icon" src="perfil.jpg" alt="Avatar de Gigi" style="width: 64px; height: 64px; border: 3px solid red; border-radius: 12px; box-shadow: 0 0 10px red;">
 </div>
@@ -416,23 +415,30 @@
 
   let dialogVisible = false;
   let currentMsg = 0;
+  let isTyping = false;
 
   function typeWriter(text, element, delay = 35, callback) {
     element.textContent = '';
     let i = 0;
+    isTyping = true;
+
     function typing() {
       if (i < text.length) {
         element.textContent += text.charAt(i);
         i++;
         setTimeout(typing, delay);
       } else {
+        isTyping = false;
         if (callback) callback();
       }
     }
+
     typing();
   }
 
   npcIcon.addEventListener('click', () => {
+    if (isTyping) return; // evita que se repita el texto al hacer clic rápido
+
     if (!dialogVisible) {
       npcDialog.style.display = 'block';
       currentMsg = 0;
