@@ -16,39 +16,12 @@
       margin: auto;
       max-width: 1000px;
       position: relative;
-      transition: padding-left 0.3s ease-in-out;
+      transition: padding-left 0.3s;
     }
 
     body.sidebar-open #menu-btn {
       left: 230px;
       transition: left 0.3s;
-    }
-
-    .glitch {
-      position: relative;
-      color: white;
-      animation: glitch 1s infinite linear alternate-reverse;
-    }
-
-    @keyframes glitch {
-      0% {
-        text-shadow: 2px 0 red, -2px 0 blue;
-      }
-      20% {
-        text-shadow: -2px -2px lime, 2px 2px magenta;
-      }
-      40% {
-        text-shadow: 2px -1px red, -2px 1px cyan;
-      }
-      60% {
-        text-shadow: 0 2px blue, 0 -2px red;
-      }
-      80% {
-        text-shadow: 2px 2px magenta, -2px -2px lime;
-      }
-      100% {
-        text-shadow: -2px 0 blue, 2px 0 red;
-      }
     }
 
     #menu-btn {
@@ -62,7 +35,7 @@
       font-size: 16px;
       z-index: 1000;
       cursor: pointer;
-      transition: left 0.3s ease-in-out;
+      transition: left 0.3s;
     }
 
     #sidebar {
@@ -75,7 +48,7 @@
       border-right: 3px solid red;
       padding: 20px;
       box-shadow: 3px 0 5px rgba(0,0,0,0.5);
-      transition: left 0.3s ease-in-out;
+      transition: left 0.3s;
       z-index: 999;
     }
 
@@ -88,7 +61,6 @@
       color: #ff4444;
       text-decoration: none;
       margin: 10px 0;
-      transition: color 0.2s ease-in-out;
     }
 
     #sidebar a:hover {
@@ -111,11 +83,6 @@
       text-align: center;
       background-color: #111;
       width: 288px;
-      transition: transform 0.3s ease-in-out;
-    }
-
-    .profile:hover {
-      transform: scale(1.02);
     }
 
     .profile img {
@@ -138,7 +105,6 @@
       font-size: 14px;
       line-height: 1.4em;
       text-align: left;
-      transition: opacity 0.3s ease-in-out;
     }
 
     .description p {
@@ -151,7 +117,6 @@
       font-weight: bold;
       display: inline-block;
       margin: 10px 15px;
-      transition: color 0.3s ease-in-out;
     }
 
     a:hover {
@@ -204,7 +169,6 @@
       justify-content: space-between;
       z-index: 999;
       flex-wrap: wrap;
-      transition: background-color 0.3s ease-in-out;
     }
 
     .marquee {
@@ -240,7 +204,6 @@
       font-size: 10px;
       cursor: pointer;
       border-radius: 4px;
-      transition: background-color 0.3s, color 0.3s;
     }
 
     .custom-controls button:hover {
@@ -257,23 +220,72 @@
       width: 100%;
     }
 
-    h1 {
-      transition: all 0.3s ease-in-out;
+    /* Estilo glitch */
+    .glitch {
+      position: relative;
+      color: white;
+      animation: glitch 1s infinite;
+    }
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      width: 100%;
+    }
+    .glitch::before {
+      left: 2px;
+      text-shadow: -2px 0 red;
+      clip: rect(0, 900px, 0, 0);
+      animation: glitchTop 1s infinite linear;
+    }
+    .glitch::after {
+      left: -2px;
+      text-shadow: -2px 0 blue;
+      clip: rect(0, 900px, 0, 0);
+      animation: glitchBottom 1s infinite linear;
+    }
+
+    @keyframes glitch {
+      0% { transform: none; }
+      20% { transform: skew(0.5deg); }
+      40% { transform: skew(-0.5deg); }
+      60% { transform: skew(0.5deg); }
+      80% { transform: skew(-0.5deg); }
+      100% { transform: none; }
+    }
+    @keyframes glitchTop {
+      0% { clip: rect(0, 9999px, 0, 0); }
+      10% { clip: rect(0, 9999px, 15px, 0); }
+      20% { clip: rect(0, 9999px, 0, 0); }
+      30% { clip: rect(0, 9999px, 10px, 0); }
+      40% { clip: rect(0, 9999px, 0, 0); }
+      50% { clip: rect(0, 9999px, 20px, 0); }
+      60% { clip: rect(0, 9999px, 0, 0); }
+      70% { clip: rect(0, 9999px, 10px, 0); }
+      80% { clip: rect(0, 9999px, 0, 0); }
+      90% { clip: rect(0, 9999px, 15px, 0); }
+      100% { clip: rect(0, 9999px, 0, 0); }
+    }
+    @keyframes glitchBottom {
+      0% { clip: rect(0, 9999px, 0, 0); }
+      10% { clip: rect(15px, 9999px, 9999px, 0); }
+      20% { clip: rect(0, 9999px, 0, 0); }
+      30% { clip: rect(10px, 9999px, 9999px, 0); }
+      40% { clip: rect(0, 9999px, 0, 0); }
+      50% { clip: rect(20px, 9999px, 9999px, 0); }
+      60% { clip: rect(0, 9999px, 0, 0); }
+      70% { clip: rect(10px, 9999px, 9999px, 0); }
+      80% { clip: rect(0, 9999px, 0, 0); }
+      90% { clip: rect(15px, 9999px, 9999px, 0); }
+      100% { clip: rect(0, 9999px, 0, 0); }
     }
   </style>
 </head>
 <body>
-  <button id="menu-btn" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="sidebar">☰</button>
-  <nav id="sidebar" role="navigation" aria-hidden="true">
-    <a href="#">Inicio</a>
-    <a href="#">Música</a>
-    <a href="#">Contacto</a>
-    <a href="#">Sobre mí</a>
-  </nav>
-
-  <h1 class="glitch" style="text-align: center; display: flex; justify-content: center; align-items: center; gap: 10px;">
+<!-- RESTO DEL CÓDIGO NO MODIFICADO HASTA EL TÍTULO -->
+  <h1 style="text-align: center; display: flex; justify-content: center; align-items: center; gap: 10px;">
     <img src="minecraft.png" alt="Icono de personaje Minecraft" width="32" height="32" style="display: inline-block;">
-    Gigi's Underground
+    <span class="glitch" data-text="Gigi's Underground">Gigi's Underground</span>
   </h1>
-
-<!-- ... resto del documento sin cambios ... -->
+<!-- CONTINÚA EL RESTO SIN CAMBIOS -->
