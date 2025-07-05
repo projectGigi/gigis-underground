@@ -23,6 +23,52 @@
       transition: left 0.3s;
     }
 
+    body.crt::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,0.02),
+        rgba(255,255,255,0.02) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      z-index: 9999;
+    }
+
+    body.crt::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 70%);
+      pointer-events: none;
+      z-index: 9998;
+    }
+
+    .crt-filter {
+      filter: contrast(1.2) saturate(0.8) brightness(1.1);
+      image-rendering: pixelated;
+    }
+
+    #scanline {
+      position: fixed;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent 90%, rgba(255, 255, 255, 0.03));
+      animation: scanlines 2s linear infinite;
+      pointer-events: none;
+      z-index: 9997;
+    }
+
+    @keyframes scanlines {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(100%); }
+    }
+
     #menu-btn {
       position: fixed;
       top: 20px;
@@ -220,7 +266,7 @@
     }
   </style>
 </head>
-<body>
+<body class="crt crt-filter">
   <button id="menu-btn">☰</button>
   <nav id="sidebar">
     <a href="#">Inicio</a>
@@ -264,6 +310,7 @@
     </div>
   </div>
   <canvas id="visualizer"></canvas>
+  <div id="scanline"></div>
 
   <script>
     const sidebar = document.getElementById('sidebar');
