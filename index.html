@@ -220,28 +220,16 @@
       width: 100%;
     }
 
-    /* Solo para la skin: más grande y sin borde */
-    #skin-icon {
-      width: 160px;
-      height: auto;
-      margin-left: 10px;
-      cursor: pointer;
-      flex-shrink: 0;
+    /* Ajustes para skin más grande, sin borde */
+    #npc-skin {
+      width: 276px;
+      height: 368px;
+      display: block;
+      margin-bottom: 10px;
+      border-radius: 0; /* sin borde */
     }
 
-    /* Volvemos al contenedor original (solo avatar) con flex para ambos */
-    #npc-dialog-container {
-      position: fixed;
-      bottom: 70px;
-      left: 20px;
-      z-index: 1500;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    /* El avatar mantiene sus estilos originales sin cambios */
+    /* Avatar original con borde y sombra, tamaño original */
     #npc-icon {
       width: 64px;
       height: 64px;
@@ -249,6 +237,29 @@
       border-radius: 12px;
       box-shadow: 0 0 10px red;
       flex-shrink: 0;
+      position: relative;
+      z-index: 1700; /* para que esté encima del diálogo */
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* Diálogo arriba del avatar, sin taparlo */
+    #npc-dialog {
+      position: fixed;
+      bottom: 140px;
+      left: 20px;
+      width: 320px;
+      padding: 15px;
+      background: rgba(20, 0, 30, 0.95);
+      border: 3px dashed #cc44ff;
+      border-radius: 10px;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 11px;
+      color: #fff;
+      box-shadow: 0 0 15px #cc44ff;
+      display: none;
+      z-index: 1600; /* menos que el avatar */
+      pointer-events: auto;
     }
   </style>
 </head>
@@ -416,16 +427,15 @@
     }
   </script>
 
-  <div id="npc-dialog-container" role="region" aria-label="Diálogo de personajes">
-    <img id="npc-icon" src="perfil.jpg" alt="Avatar de Gigi">
-    <img id="skin-icon" src="skin.png" alt="Skin Minecraft de Gigi">
+  <div id="npc-dialog-container" style="position: fixed; bottom: 70px; left: 20px; z-index: 1500;">
+    <!-- Skin más grande, sin borde -->
+    <img id="npc-skin" src="skin.png" alt="Skin Minecraft de Gigi">
+    <!-- Avatar pequeño con borde y sombra -->
+    <img id="npc-icon" src="perfil.jpg" alt="Avatar de Gigi" title="Haz clic para conversar">
   </div>
 
   <div id="npc-dialog" role="dialog" aria-live="polite" aria-atomic="true"
-       style="position: fixed; bottom: 140px; left: 20px; width: 320px; padding: 15px; 
-              background: rgba(20, 0, 30, 0.95); border: 3px dashed #cc44ff; border-radius: 10px; 
-              font-family: 'Press Start 2P', cursive; font-size: 11px; color: #fff; 
-              box-shadow: 0 0 15px #cc44ff; display: none; z-index: 1600;">
+       >
     <div style="font-weight: bold; margin-bottom: 8px;">Gigi</div>
     <div id="npc-dialog-text"></div>
   </div>
