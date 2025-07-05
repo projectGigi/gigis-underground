@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gigi's Underground</title>
+  <link rel="icon" href="minecraft.png" type="image/png" sizes="32x32" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
@@ -221,15 +222,18 @@
   </style>
 </head>
 <body>
-  <button id="menu-btn">☰</button>
-  <nav id="sidebar">
+  <button id="menu-btn" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <nav id="sidebar" role="navigation" aria-hidden="true">
     <a href="#">Inicio</a>
     <a href="#">Música</a>
     <a href="#">Contacto</a>
     <a href="#">Sobre mí</a>
   </nav>
 
-  <h1 style="text-align: center;">Gigi's Underground</h1>
+  <h1 style="text-align: center; display: flex; justify-content: center; align-items: center; gap: 10px;">
+    <img src="minecraft.png" alt="Icono de personaje Minecraft" width="32" height="32" style="display: inline-block;">
+    Gigi's Underground
+  </h1>
   <div class="container">
     <div class="profile">
       <img src="perfil.jpg" alt="Foto de Gigi">
@@ -243,11 +247,11 @@
         <p>Un lugar seguro para poder expresarme y compartir las cosas que disfruto, así como ayudar a otros en su viaje.</p>
         <p>Si desean chatear o saber algo, pueden hablarme en Twitter.</p>
       </div>
-      <div class="socials">
-        <a href="https://www.instagram.com/fufuuhh_/" target="_blank">Instagram</a>
-        <a href="https://x.com/Fufuuhh" target="_blank">Twitter</a>
+      <div class="socials" aria-label="Redes sociales de projectGigi">
+        <a href="https://www.instagram.com/fufuuhh_/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://x.com/Fufuuhh" target="_blank" rel="noopener noreferrer">Twitter</a>
         <span>Discord: fufuhh</span><br>
-        <a href="https://github.com/projectGigi" target="_blank">GitHub</a>
+        <a href="https://github.com/projectGigi" target="_blank" rel="noopener noreferrer">GitHub</a>
       </div>
       <p style="margin-top: 40px;">Gracias por visitar mi página <span class="heart">♥</span></p>
     </div>
@@ -256,8 +260,9 @@
   <div class="music-player">
     <audio id="player" src="sunhits.mp3"></audio>
     <div class="custom-controls">
-      <button onclick="togglePlay()">▶/⏸</button>
+      <button onclick="togglePlay()" id="play-btn">▶</button>
       <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5" onchange="adjustVolume(this.value)">
+      <span id="volume-value">50%</span>
     </div>
     <div class="marquee">
       <div class="marquee-text">🎵 Slowdive - When the Sun Hits 🎵</div>
@@ -273,12 +278,17 @@
     const player = document.getElementById('player');
     const canvas = document.getElementById('visualizer');
     const ctx = canvas.getContext('2d');
+    const volumeValue = document.getElementById('volume-value');
+    const playBtn = document.getElementById('play-btn');
     let audioCtx, analyser, source, dataArray;
+    let drawId;
 
     menuBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('show');
+      const isOpen = sidebar.classList.toggle('show');
       document.body.classList.toggle('sidebar-open');
-      menuBtn.textContent = sidebar.classList.contains('show') ? '✖' : '☰';
+      menuBtn.textContent = isOpen ? '✖' : '☰';
+      menuBtn.setAttribute('aria-expanded', isOpen);
+      sidebar.setAttribute('aria-hidden', !isOpen);
     });
 
     const texts = {
@@ -303,14 +313,27 @@
       if (player.paused) {
         player.play();
         startVisualizer();
+        playBtn.textContent = '⏸';
       } else {
         player.pause();
+        cancelAnimationFrame(drawId);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        playBtn.textContent = '▶';
       }
     }
 
     function adjustVolume(val) {
       player.volume = parseFloat(val);
+      volumeValue.textContent = Math.round(val * 100) + '%';
     }
+    adjustVolume(player.volume);
+
+    function resizeCanvas() {
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
 
     function startVisualizer() {
       if (!audioCtx) {
@@ -324,7 +347,7 @@
         dataArray = new Uint8Array(bufferLength);
 
         function draw() {
-          requestAnimationFrame(draw);
+          drawId = requestAnimationFrame(draw);
           analyser.getByteFrequencyData(dataArray);
           ctx.fillStyle = '#000';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
