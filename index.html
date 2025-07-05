@@ -220,28 +220,35 @@
       width: 100%;
     }
 
-    /* Nuevo estilo para la imagen skin.png más grande */
+    /* Solo para la skin: más grande y sin borde */
     #skin-icon {
-      width: 138px;       /* aprox la mitad del ancho original para buen tamaño */
+      width: 160px;
       height: auto;
-      border: 3px solid #44cc44;
-      border-radius: 8px;
-      box-shadow: 0 0 8px #44cc44;
-      flex-shrink: 0;
-      cursor: pointer;
       margin-left: 10px;
+      cursor: pointer;
+      flex-shrink: 0;
     }
 
-    /* Ajustamos el contenedor para que el icono y la skin estén juntos */
+    /* Volvemos al contenedor original (solo avatar) con flex para ambos */
     #npc-dialog-container {
-      display: flex;
-      align-items: center;
-      gap: 10px;
       position: fixed;
       bottom: 70px;
       left: 20px;
       z-index: 1500;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* El avatar mantiene sus estilos originales sin cambios */
+    #npc-icon {
+      width: 64px;
+      height: 64px;
+      border: 3px solid red;
+      border-radius: 12px;
+      box-shadow: 0 0 10px red;
+      flex-shrink: 0;
     }
   </style>
 </head>
