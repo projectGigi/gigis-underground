@@ -215,6 +215,13 @@
       margin-bottom: 10px;
     }
 
+    #npc-dialog-container {
+      position: fixed;
+      bottom: 70px;
+      left: 20px;
+      z-index: 1500;
+    }
+
     #npc-icon {
       width: 64px;
       height: 64px;
@@ -244,12 +251,7 @@
       pointer-events: auto;
     }
 
-    /* --- Responsive --- */
     @media screen and (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
-
       .container {
         flex-direction: column;
         gap: 20px;
@@ -265,9 +267,17 @@
       }
 
       #npc-dialog {
-        width: calc(100% - 40px);
-        left: 10px;
-        bottom: 120px;
+        position: static;
+        width: 100%;
+        margin-top: 20px;
+      }
+
+      #npc-dialog-container {
+        position: static;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
       }
     }
   </style>
