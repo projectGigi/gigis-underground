@@ -17,6 +17,48 @@
       position: relative;
     }
 
+    #menu-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: black;
+      color: red;
+      border: 2px solid red;
+      padding: 6px 12px;
+      font-size: 16px;
+      z-index: 1000;
+      cursor: pointer;
+    }
+
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: -250px;
+      width: 200px;
+      height: 100%;
+      background: #111;
+      border-right: 3px solid red;
+      padding: 20px;
+      box-shadow: 3px 0 5px rgba(0,0,0,0.5);
+      transition: left 0.3s;
+      z-index: 999;
+    }
+
+    #sidebar.show {
+      left: 0;
+    }
+
+    #sidebar a {
+      display: block;
+      color: #ff4444;
+      text-decoration: none;
+      margin: 10px 0;
+    }
+
+    #sidebar a:hover {
+      color: #ffcc00;
+    }
+
     .container {
       display: flex;
       flex-direction: row;
@@ -172,35 +214,37 @@
   </style>
 </head>
 <body>
-  <h1 style="text-align: center;">Gigi's Underground</h1>
+  <button id="menu-btn">☰</button>
+  <nav id="sidebar">
+    <a href="#">Inicio</a>
+    <a href="#">Música</a>
+    <a href="#">Contacto</a>
+    <a href="#">Sobre mí</a>
+  </nav>
 
+  <h1 style="text-align: center;">Gigi's Underground</h1>
   <div class="container">
     <div class="profile">
       <img src="perfil.jpg" alt="Foto de Gigi">
       <div class="profile-name">projectGigi</div>
     </div>
-
     <div class="main-content">
       <button id="lang-toggle">English</button>
-
       <div class="description" id="description-text">
         <p>Bienvenidos a mi página personal (de desarrollador).</p>
         <p>Es una especie de diario virtual donde quisiera colocar música que me gusta, y cosas de mis intereses relacionados con la programación y el anime.</p>
         <p>Un lugar seguro para poder expresarme y compartir las cosas que disfruto, así como ayudar a otros en su viaje.</p>
         <p>Si desean chatear o saber algo, pueden hablarme en Twitter.</p>
       </div>
-
       <div class="socials">
-        <a href="https://www.instagram.com/fufuuhh_/?next=%2Ftuusuario%2F" target="_blank">Instagram</a>
+        <a href="https://www.instagram.com/fufuuhh_/" target="_blank">Instagram</a>
         <a href="https://x.com/Fufuuhh" target="_blank">Twitter</a>
         <span>Discord: fufuhh</span><br>
         <a href="https://github.com/projectGigi" target="_blank">GitHub</a>
       </div>
-
       <p style="margin-top: 40px;">Gracias por visitar mi página <span class="heart">♥</span></p>
     </div>
   </div>
-
   <div class="music-player">
     <audio id="player" src="sunhits.mp3"></audio>
     <div class="custom-controls">
@@ -214,6 +258,10 @@
   <canvas id="visualizer"></canvas>
 
   <script>
+    const sidebar = document.getElementById('sidebar');
+    const menuBtn = document.getElementById('menu-btn');
+    menuBtn.addEventListener('click', () => sidebar.classList.toggle('show'));
+
     const btn = document.getElementById('lang-toggle');
     const desc = document.getElementById('description-text');
     const player = document.getElementById('player');
