@@ -387,5 +387,69 @@
       }
     }
   </script>
+<!-- Tu código HTML hasta ahora, sin cambios -->
+<!-- ... -->
+
+<!-- 👇 Agrega esto justo antes del cierre </body> -->
+<div id="npc-dialog-container" style="position: fixed; bottom: 70px; left: 20px; z-index: 1500; cursor: pointer;">
+  <img id="npc-icon" src="perfil.jpg" alt="Avatar de Gigi" style="width: 64px; height: 64px; border: 3px solid red; border-radius: 12px; box-shadow: 0 0 10px red;">
+</div>
+
+<div id="npc-dialog" role="dialog" aria-live="polite" aria-atomic="true"
+     style="position: fixed; bottom: 140px; left: 20px; width: 320px; padding: 15px; 
+            background: rgba(20, 0, 30, 0.95); border: 3px dashed #cc44ff; border-radius: 10px; 
+            font-family: 'Press Start 2P', cursive; font-size: 11px; color: #fff; 
+            box-shadow: 0 0 15px #cc44ff; display: none; z-index: 1600;">
+  <div style="font-weight: bold; margin-bottom: 8px;">Gigi</div>
+  <div id="npc-dialog-text"></div>
+</div>
+
+<script>
+  const npcIcon = document.getElementById('npc-icon');
+  const npcDialog = document.getElementById('npc-dialog');
+  const npcDialogText = document.getElementById('npc-dialog-text');
+
+  const messages = [
+    "Estoy estudiando animación digital pero me gusta mucho programar.",
+    "Me gusta mucho Frieren."
+  ];
+
+  let dialogVisible = false;
+  let currentMsg = 0;
+
+  function typeWriter(text, element, delay = 35, callback) {
+    element.textContent = '';
+    let i = 0;
+    function typing() {
+      if (i < text.length) {
+        element.textContent += text.charAt(i);
+        i++;
+        setTimeout(typing, delay);
+      } else {
+        if (callback) callback();
+      }
+    }
+    typing();
+  }
+
+  npcIcon.addEventListener('click', () => {
+    if (!dialogVisible) {
+      npcDialog.style.display = 'block';
+      currentMsg = 0;
+      typeWriter(messages[currentMsg], npcDialogText);
+      dialogVisible = true;
+    } else {
+      currentMsg++;
+      if (currentMsg < messages.length) {
+        typeWriter(messages[currentMsg], npcDialogText);
+      } else {
+        npcDialog.style.display = 'none';
+        dialogVisible = false;
+        currentMsg = 0;
+      }
+    }
+  });
+</script>
+
 </body>
 </html>
