@@ -15,6 +15,12 @@
       margin: auto;
       max-width: 1000px;
       position: relative;
+      transition: padding-left 0.3s;
+    }
+
+    body.sidebar-open #menu-btn {
+      left: 230px;
+      transition: left 0.3s;
     }
 
     #menu-btn {
@@ -28,6 +34,7 @@
       font-size: 16px;
       z-index: 1000;
       cursor: pointer;
+      transition: left 0.3s;
     }
 
     #sidebar {
@@ -245,6 +252,7 @@
       <p style="margin-top: 40px;">Gracias por visitar mi página <span class="heart">♥</span></p>
     </div>
   </div>
+
   <div class="music-player">
     <audio id="player" src="sunhits.mp3"></audio>
     <div class="custom-controls">
@@ -260,14 +268,18 @@
   <script>
     const sidebar = document.getElementById('sidebar');
     const menuBtn = document.getElementById('menu-btn');
-    menuBtn.addEventListener('click', () => sidebar.classList.toggle('show'));
-
     const btn = document.getElementById('lang-toggle');
     const desc = document.getElementById('description-text');
     const player = document.getElementById('player');
     const canvas = document.getElementById('visualizer');
     const ctx = canvas.getContext('2d');
     let audioCtx, analyser, source, dataArray;
+
+    menuBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('show');
+      document.body.classList.toggle('sidebar-open');
+      menuBtn.textContent = sidebar.classList.contains('show') ? '✖' : '☰';
+    });
 
     const texts = {
       es: `<p>Bienvenidos a mi página personal (de desarrollador).</p>
