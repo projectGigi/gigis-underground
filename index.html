@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Gigi's Underground</title>
-  <link rel="icon" href="minecraft.png" type="image/png" />
+  <link rel="icon" href="minecraft.png" type="image/png" sizes="32x32" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
@@ -15,56 +15,145 @@
       padding: 20px;
       margin: auto;
       max-width: 1000px;
-    }
-
-    .glitch {
-      color: #f00;
       position: relative;
-      display: inline-block;
+      transition: padding-left 0.3s;
     }
 
-    .glitch::before,
-    .glitch::after {
-      content: attr(data-text);
-      position: absolute;
+    body.sidebar-open #menu-btn {
+      left: 230px;
+      transition: left 0.3s;
+    }
+
+    #menu-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: black;
+      color: red;
+      border: 2px solid red;
+      padding: 6px 12px;
+      font-size: 16px;
+      z-index: 1000;
+      cursor: pointer;
+      transition: left 0.3s;
+    }
+
+    #sidebar {
+      position: fixed;
       top: 0;
-      width: 100%;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
+      left: -250px;
+      width: 200px;
+      height: 100%;
+      background: #111;
+      border-right: 3px solid red;
+      padding: 20px;
+      box-shadow: 3px 0 5px rgba(0,0,0,0.5);
+      transition: left 0.3s;
+      z-index: 999;
     }
 
-    .glitch::before {
-      left: 2px;
-      text-shadow: -2px 0 cyan;
-      animation: glitch-anim-1 2s infinite linear alternate-reverse;
+    #sidebar.show {
+      left: 0;
     }
 
-    .glitch::after {
-      left: -2px;
-      text-shadow: -2px 0 magenta;
-      animation: glitch-anim-2 1.5s infinite linear alternate-reverse;
+    #sidebar a {
+      display: block;
+      color: #ff4444;
+      text-decoration: none;
+      margin: 10px 0;
     }
 
-    @keyframes glitch-anim-1 {
-      0% { clip: rect(0, 9999px, 0, 0); }
-      5% { clip: rect(0, 9999px, 5px, 0); }
-      10% { clip: rect(10px, 9999px, 15px, 0); }
-      15% { clip: rect(5px, 9999px, 10px, 0); }
-      100% { clip: rect(0, 9999px, 0, 0); }
+    #sidebar a:hover {
+      color: #ffcc00;
     }
 
-    @keyframes glitch-anim-2 {
-      0% { clip: rect(0, 9999px, 0, 0); }
-      5% { clip: rect(10px, 9999px, 15px, 0); }
-      10% { clip: rect(5px, 9999px, 10px, 0); }
-      15% { clip: rect(0px, 9999px, 5px, 0); }
-      100% { clip: rect(0, 9999px, 0, 0); }
+    .container {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+
+    .profile {
+      flex-shrink: 0;
+      border: 3px solid red;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      background-color: #111;
+      width: 288px;
     }
 
     .profile img {
-      border: 3px solid red;
-      border-radius: 10px;
-      width: 200px;
+      width: 100%;
+      height: auto;
+      border-radius: 6px;
+    }
+
+    .profile-name {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #ff4444;
+    }
+
+    .main-content {
+      flex: 1;
+    }
+
+    .description {
+      font-size: 14px;
+      line-height: 1.4em;
+      text-align: left;
+    }
+
+    .description p {
+      margin-bottom: 12px;
+    }
+
+    a {
+      color: #ff4444;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin: 10px 15px;
+    }
+
+    a:hover {
+      color: #ffcc00;
+      text-decoration: underline;
+    }
+
+    .socials {
+      margin-top: 20px;
+    }
+
+    #lang-toggle {
+      background: #222;
+      color: #ff4444;
+      border: 2px solid #ff4444;
+      font-family: 'Press Start 2P', cursive;
+      cursor: pointer;
+      padding: 8px 16px;
+      margin-bottom: 20px;
+      border-radius: 6px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    #lang-toggle:hover {
+      background: #ff4444;
+      color: black;
+    }
+
+    .heart {
+      font-size: 28px;
+      animation: beat 1s infinite;
+      color: red;
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.4); }
     }
 
     .music-player {
@@ -79,6 +168,25 @@
       align-items: center;
       justify-content: space-between;
       z-index: 999;
+      flex-wrap: wrap;
+    }
+
+    .marquee {
+      overflow: hidden;
+      white-space: nowrap;
+      flex: 1;
+      margin: 0 15px;
+    }
+
+    .marquee-text {
+      display: inline-block;
+      padding-left: 100%;
+      animation: scroll-left 12s linear infinite;
+    }
+
+    @keyframes scroll-left {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
     }
 
     .custom-controls {
@@ -98,6 +206,11 @@
       border-radius: 4px;
     }
 
+    .custom-controls button:hover {
+      background-color: red;
+      color: black;
+    }
+
     .custom-controls input[type=range] {
       accent-color: red;
     }
@@ -106,91 +219,98 @@
       height: 40px;
       width: 100%;
     }
-
-    #npc-dialog-container img {
-      width: 64px;
-      height: 64px;
-      border: 3px solid red;
-      border-radius: 12px;
-      box-shadow: 0 0 10px red;
-    }
-
-    #npc-dialog {
-      position: fixed;
-      bottom: 140px;
-      left: 20px;
-      width: 320px;
-      padding: 15px;
-      background: rgba(20, 0, 30, 0.95);
-      border: 3px dashed #cc44ff;
-      border-radius: 10px;
-      font-size: 11px;
-      color: #fff;
-      box-shadow: 0 0 15px #cc44ff;
-      display: none;
-      z-index: 1600;
-      font-family: 'Press Start 2P', cursive;
-    }
-
-    #lang-toggle {
-      margin-top: 20px;
-      background-color: #222;
-      border: 2px solid #ff4444;
-      color: #ff4444;
-      font-family: 'Press Start 2P', cursive;
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
   </style>
 </head>
 <body>
+  <button id="menu-btn" aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="sidebar">☰</button>
+  <nav id="sidebar" role="navigation" aria-hidden="true">
+    <a href="#">Inicio</a>
+    <a href="#">Música</a>
+    <a href="#">Contacto</a>
+    <a href="#">Sobre mí</a>
+  </nav>
 
-  <h1 style="text-align: center;">
-    <span class="glitch" data-text="Gigi's Underground">Gigi's Underground</span>
+  <h1 style="text-align: center; display: flex; justify-content: center; align-items: center; gap: 10px;">
+    <img src="minecraft.png" alt="Icono de personaje Minecraft" width="32" height="32" style="display: inline-block;">
+    Gigi's Underground
   </h1>
-
-  <div class="profile" style="text-align:center;">
-    <img src="perfil.jpg" alt="Foto de Gigi">
-    <div style="color:#ff4444; margin-top: 10px;">projectGigi</div>
+  <div class="container">
+    <div class="profile">
+      <img src="perfil.jpg" alt="Foto de Gigi">
+      <div class="profile-name">projectGigi</div>
+    </div>
+    <div class="main-content">
+      <button id="lang-toggle">English</button>
+      <div class="description" id="description-text">
+        <p>Bienvenidos a mi página personal (de desarrollador).</p>
+        <p>Es una especie de diario virtual donde quisiera colocar música que me gusta, y cosas de mis intereses relacionados con la programación y el anime.</p>
+        <p>Un lugar seguro para poder expresarme y compartir las cosas que disfruto, así como ayudar a otros en su viaje.</p>
+        <p>Si desean chatear o saber algo, pueden hablarme en Twitter.</p>
+      </div>
+      <div class="socials" aria-label="Redes sociales de projectGigi">
+        <a href="https://www.instagram.com/fufuuhh_/" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://x.com/Fufuuhh" target="_blank" rel="noopener noreferrer">Twitter</a>
+        <span>Discord: fufuhh</span><br>
+        <a href="https://github.com/projectGigi" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+      <p style="margin-top: 40px;">Gracias por visitar mi página <span class="heart">♥</span></p>
+    </div>
   </div>
-
-  <div style="margin-top: 20px;" id="description-text">
-    <p>Bienvenidos a mi página personal (de desarrollador).</p>
-    <p>Es una especie de diario virtual donde quisiera colocar música que me gusta, y cosas de mis intereses relacionados con la programación y el anime.</p>
-    <p>Un lugar seguro para poder expresarme y compartir las cosas que disfruto, así como ayudar a otros en su viaje.</p>
-    <p>Si desean chatear o saber algo, pueden hablarme en Twitter.</p>
-  </div>
-
-  <button id="lang-toggle">English</button>
 
   <div class="music-player">
     <audio id="player" src="sunhits.mp3"></audio>
     <div class="custom-controls">
       <button onclick="togglePlay()" id="play-btn">▶</button>
+      <!-- Barra de progreso agregada -->
       <input type="range" id="progress" min="0" max="100" value="0" style="width: 150px;">
       <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5" onchange="adjustVolume(this.value)">
+      <span id="volume-value">50%</span>
+    </div>
+    <div class="marquee">
+      <div class="marquee-text">🎵 Slowdive - When the Sun Hits 🎵</div>
     </div>
   </div>
-
   <canvas id="visualizer"></canvas>
 
-  <div id="npc-dialog-container" style="position: fixed; bottom: 70px; left: 20px; cursor: pointer;">
-    <img id="npc-icon" src="perfil.jpg" alt="Avatar de Gigi">
-  </div>
-
-  <div id="npc-dialog">
-    <div style="font-weight: bold; margin-bottom: 8px;">Gigi</div>
-    <div id="npc-dialog-text"></div>
-  </div>
-
   <script>
+    const sidebar = document.getElementById('sidebar');
+    const menuBtn = document.getElementById('menu-btn');
+    const btn = document.getElementById('lang-toggle');
+    const desc = document.getElementById('description-text');
     const player = document.getElementById('player');
     const canvas = document.getElementById('visualizer');
     const ctx = canvas.getContext('2d');
+    const volumeValue = document.getElementById('volume-value');
     const playBtn = document.getElementById('play-btn');
     const progress = document.getElementById('progress');
-    let audioCtx, analyser, source, dataArray, drawId;
+    let audioCtx, analyser, source, dataArray;
+    let drawId;
+
+    menuBtn.addEventListener('click', () => {
+      const isOpen = sidebar.classList.toggle('show');
+      document.body.classList.toggle('sidebar-open');
+      menuBtn.textContent = isOpen ? '✖' : '☰';
+      menuBtn.setAttribute('aria-expanded', isOpen);
+      sidebar.setAttribute('aria-hidden', !isOpen);
+    });
+
+    const texts = {
+      es: <p>Bienvenidos a mi página personal (de desarrollador).</p>
+<p>Es una especie de diario virtual donde quisiera colocar música que me gusta, y cosas de mis intereses relacionados con la programación y el anime.</p>
+<p>Un lugar seguro para poder expresarme y compartir las cosas que disfruto, así como ayudar a otros en su viaje.</p>
+<p>Si desean chatear o saber algo, pueden hablarme en Twitter.</p>,
+      en: <p>Welcome to my personal page (as a developer).</p>
+<p>It's a kind of virtual diary where I want to share music I like, and things about my interests related to programming and anime.</p>
+<p>A safe place to express myself and share the things I enjoy, as well as help others on their journey.</p>
+<p>If you want to chat or know something, you can reach me on Twitter.</p>
+    };
+
+    let currentLang = 'es';
+    btn.addEventListener('click', () => {
+      currentLang = currentLang === 'es' ? 'en' : 'es';
+      btn.innerText = currentLang === 'es' ? 'English' : 'Español';
+      desc.innerHTML = texts[currentLang];
+    });
 
     function togglePlay() {
       if (player.paused) {
@@ -207,8 +327,11 @@
 
     function adjustVolume(val) {
       player.volume = parseFloat(val);
+      volumeValue.textContent = Math.round(val * 100) + '%';
     }
+    adjustVolume(player.volume);
 
+    // Sincronizar barra de progreso con la canción
     player.addEventListener('timeupdate', () => {
       if (player.duration) {
         const percent = (player.currentTime / player.duration) * 100;
@@ -222,6 +345,7 @@
       }
     });
 
+    // Manejar fin de canción
     player.addEventListener('ended', () => {
       playBtn.textContent = '▶';
       progress.value = 0;
@@ -244,96 +368,95 @@
         source.connect(analyser);
         analyser.connect(audioCtx.destination);
         analyser.fftSize = 64;
-        dataArray = new Uint8Array(analyser.frequencyBinCount);
+        const bufferLength = analyser.frequencyBinCount;
+        dataArray = new Uint8Array(bufferLength);
 
         function draw() {
           drawId = requestAnimationFrame(draw);
           analyser.getByteFrequencyData(dataArray);
           ctx.fillStyle = '#000';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
-          const barWidth = canvas.width / dataArray.length;
-          for (let i = 0; i < dataArray.length; i++) {
+          const barWidth = canvas.width / bufferLength;
+          for (let i = 0; i < bufferLength; i++) {
             const barHeight = dataArray[i] / 2;
-            ctx.fillStyle = `rgb(${barHeight + 100},0,0)`;
+            ctx.fillStyle = rgb(${barHeight + 100},0,0);
             ctx.fillRect(i * barWidth, canvas.height - barHeight, barWidth - 2, barHeight);
           }
         }
         draw();
       }
     }
+  </script>
 
-    // NPC Dialog
-    const npcIcon = document.getElementById('npc-icon');
-    const npcDialog = document.getElementById('npc-dialog');
-    const npcDialogText = document.getElementById('npc-dialog-text');
-    const messages = [
-      "Estoy estudiando animación digital, pero me gusta mucho programar cosas.",
-      "Me gusta mucho Frieren.",
-      "Mi bebida favorita es la Lemon Stone original jiji."
-    ];
 
-    let dialogVisible = false;
-    let currentMsg = 0;
-    let isTyping = false;
 
-    function typeWriter(text, element, delay = 35, callback) {
-      element.textContent = '';
-      let i = 0;
-      isTyping = true;
-      function typing() {
-        if (i < text.length) {
-          element.textContent += text.charAt(i);
-          i++;
-          setTimeout(typing, delay);
-        } else {
-          isTyping = false;
-          if (callback) callback();
-        }
+<div id="npc-dialog-container" style="position: fixed; bottom: 70px; left: 20px; z-index: 1500; cursor: pointer;">
+  <img id="npc-icon" src="perfil.jpg" alt="Avatar de Gigi" style="width: 64px; height: 64px; border: 3px solid red; border-radius: 12px; box-shadow: 0 0 10px red;">
+</div>
+
+<div id="npc-dialog" role="dialog" aria-live="polite" aria-atomic="true"
+     style="position: fixed; bottom: 140px; left: 20px; width: 320px; padding: 15px; 
+            background: rgba(20, 0, 30, 0.95); border: 3px dashed #cc44ff; border-radius: 10px; 
+            font-family: 'Press Start 2P', cursive; font-size: 11px; color: #fff; 
+            box-shadow: 0 0 15px #cc44ff; display: none; z-index: 1600;">
+  <div style="font-weight: bold; margin-bottom: 8px;">Gigi</div>
+  <div id="npc-dialog-text"></div>
+</div>
+
+<script>
+  const npcIcon = document.getElementById('npc-icon');
+  const npcDialog = document.getElementById('npc-dialog');
+  const npcDialogText = document.getElementById('npc-dialog-text');
+
+  const messages = [
+    "Estoy estudiando animación digital, pero me gusta mucho programar cosas.",
+    "Me gusta mucho Frieren.",
+    "Mi bebida favorita es la Lemon Stone original jiji."
+  ];
+
+  let dialogVisible = false;
+  let currentMsg = 0;
+  let isTyping = false;
+
+  function typeWriter(text, element, delay = 35, callback) {
+    element.textContent = '';
+    let i = 0;
+    isTyping = true;
+
+    function typing() {
+      if (i < text.length) {
+        element.textContent += text.charAt(i);
+        i++;
+        setTimeout(typing, delay);
+      } else {
+        isTyping = false;
+        if (callback) callback();
       }
-      typing();
     }
 
-    npcIcon.addEventListener('click', () => {
-      if (isTyping) return;
-      if (!dialogVisible) {
-        npcDialog.style.display = 'block';
-        currentMsg = 0;
+    typing();
+  }
+
+  npcIcon.addEventListener('click', () => {
+    if (isTyping) return; // evita que se repita el texto al hacer clic rápido
+
+    if (!dialogVisible) {
+      npcDialog.style.display = 'block';
+      currentMsg = 0;
+      typeWriter(messages[currentMsg], npcDialogText);
+      dialogVisible = true;
+    } else {
+      currentMsg++;
+      if (currentMsg < messages.length) {
         typeWriter(messages[currentMsg], npcDialogText);
-        dialogVisible = true;
       } else {
-        currentMsg++;
-        if (currentMsg < messages.length) {
-          typeWriter(messages[currentMsg], npcDialogText);
-        } else {
-          npcDialog.style.display = 'none';
-          dialogVisible = false;
-          currentMsg = 0;
-        }
+        npcDialog.style.display = 'none';
+        dialogVisible = false;
+        currentMsg = 0;
       }
-    });
-
-    // Idioma
-    const texts = {
-      es: `<p>Bienvenidos a mi página personal (de desarrollador).</p>
-<p>Es una especie de diario virtual donde quisiera colocar música que me gusta, y cosas de mis intereses relacionados con la programación y el anime.</p>
-<p>Un lugar seguro para poder expresarme y compartir las cosas que disfruto, así como ayudar a otros en su viaje.</p>
-<p>Si desean chatear o saber algo, pueden hablarme en Twitter.</p>`,
-      en: `<p>Welcome to my personal page (as a developer).</p>
-<p>It's like a virtual diary where I share music I like and things about programming and anime.</p>
-<p>A safe space to express myself and share what I enjoy, and help others on their journey.</p>
-<p>If you'd like to chat or ask something, message me on Twitter.</p>`
-    };
-
-    const langBtn = document.getElementById('lang-toggle');
-    const desc = document.getElementById('description-text');
-    let currentLang = 'es';
-
-    langBtn.addEventListener('click', () => {
-      currentLang = currentLang === 'es' ? 'en' : 'es';
-      langBtn.textContent = currentLang === 'es' ? 'English' : 'Español';
-      desc.innerHTML = texts[currentLang];
-    });
-  </script>
+    }
+  });
+</script>
 
 </body>
 </html>
