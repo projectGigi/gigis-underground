@@ -261,7 +261,6 @@
     <audio id="player" src="sunhits.mp3"></audio>
     <div class="custom-controls">
       <button onclick="togglePlay()" id="play-btn">▶</button>
-      <!-- Barra de progreso agregada -->
       <input type="range" id="progress" min="0" max="100" value="0" style="width: 150px;">
       <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5" onchange="adjustVolume(this.value)">
       <span id="volume-value">50%</span>
@@ -295,14 +294,14 @@
     });
 
     const texts = {
-      es: <p>Bienvenidos a mi página personal (de desarrollador).</p>
+      es: `<p>Bienvenidos a mi página personal (de desarrollador).</p>
 <p>Es una especie de diario virtual donde quisiera colocar música que me gusta, y cosas de mis intereses relacionados con la programación y el anime.</p>
 <p>Un lugar seguro para poder expresarme y compartir las cosas que disfruto, así como ayudar a otros en su viaje.</p>
-<p>Si desean chatear o saber algo, pueden hablarme en Twitter.</p>,
-      en: <p>Welcome to my personal page (as a developer).</p>
+<p>Si desean chatear o saber algo, pueden hablarme en Twitter.</p>`,
+      en: `<p>Welcome to my personal page (as a developer).</p>
 <p>It's a kind of virtual diary where I want to share music I like, and things about my interests related to programming and anime.</p>
 <p>A safe place to express myself and share the things I enjoy, as well as help others on their journey.</p>
-<p>If you want to chat or know something, you can reach me on Twitter.</p>
+<p>If you want to chat or know something, you can reach me on Twitter.</p>`
     };
 
     let currentLang = 'es';
@@ -331,7 +330,6 @@
     }
     adjustVolume(player.volume);
 
-    // Sincronizar barra de progreso con la canción
     player.addEventListener('timeupdate', () => {
       if (player.duration) {
         const percent = (player.currentTime / player.duration) * 100;
@@ -345,7 +343,6 @@
       }
     });
 
-    // Manejar fin de canción
     player.addEventListener('ended', () => {
       playBtn.textContent = '▶';
       progress.value = 0;
@@ -379,7 +376,7 @@
           const barWidth = canvas.width / bufferLength;
           for (let i = 0; i < bufferLength; i++) {
             const barHeight = dataArray[i] / 2;
-            ctx.fillStyle = rgb(${barHeight + 100},0,0);
+            ctx.fillStyle = `rgb(${barHeight + 100},0,0)`;
             ctx.fillRect(i * barWidth, canvas.height - barHeight, barWidth - 2, barHeight);
           }
         }
@@ -388,75 +385,72 @@
     }
   </script>
 
+  <div id="npc-dialog-container" style="position: fixed; bottom: 70px; left: 20px; z-index: 1500; cursor: pointer;">
+    <img id="npc-icon" src="perfil.jpg" alt="Avatar de Gigi" style="width: 64px; height: 64px; border: 3px solid red; border-radius: 12px; box-shadow: 0 0 10px red;">
+  </div>
 
+  <div id="npc-dialog" role="dialog" aria-live="polite" aria-atomic="true"
+       style="position: fixed; bottom: 140px; left: 20px; width: 320px; padding: 15px; 
+              background: rgba(20, 0, 30, 0.95); border: 3px dashed #cc44ff; border-radius: 10px; 
+              font-family: 'Press Start 2P', cursive; font-size: 11px; color: #fff; 
+              box-shadow: 0 0 15px #cc44ff; display: none; z-index: 1600;">
+    <div style="font-weight: bold; margin-bottom: 8px;">Gigi</div>
+    <div id="npc-dialog-text"></div>
+  </div>
 
-<div id="npc-dialog-container" style="position: fixed; bottom: 70px; left: 20px; z-index: 1500; cursor: pointer;">
-  <img id="npc-icon" src="perfil.jpg" alt="Avatar de Gigi" style="width: 64px; height: 64px; border: 3px solid red; border-radius: 12px; box-shadow: 0 0 10px red;">
-</div>
+  <script>
+    const npcIcon = document.getElementById('npc-icon');
+    const npcDialog = document.getElementById('npc-dialog');
+    const npcDialogText = document.getElementById('npc-dialog-text');
 
-<div id="npc-dialog" role="dialog" aria-live="polite" aria-atomic="true"
-     style="position: fixed; bottom: 140px; left: 20px; width: 320px; padding: 15px; 
-            background: rgba(20, 0, 30, 0.95); border: 3px dashed #cc44ff; border-radius: 10px; 
-            font-family: 'Press Start 2P', cursive; font-size: 11px; color: #fff; 
-            box-shadow: 0 0 15px #cc44ff; display: none; z-index: 1600;">
-  <div style="font-weight: bold; margin-bottom: 8px;">Gigi</div>
-  <div id="npc-dialog-text"></div>
-</div>
+    const messages = [
+      "Estoy estudiando animación digital, pero me gusta mucho programar cosas.",
+      "Me gusta mucho Frieren.",
+      "Mi bebida favorita es la Lemon Stone original jiji."
+    ];
 
-<script>
-  const npcIcon = document.getElementById('npc-icon');
-  const npcDialog = document.getElementById('npc-dialog');
-  const npcDialogText = document.getElementById('npc-dialog-text');
+    let dialogVisible = false;
+    let currentMsg = 0;
+    let isTyping = false;
 
-  const messages = [
-    "Estoy estudiando animación digital, pero me gusta mucho programar cosas.",
-    "Me gusta mucho Frieren.",
-    "Mi bebida favorita es la Lemon Stone original jiji."
-  ];
+    function typeWriter(text, element, delay = 35, callback) {
+      element.textContent = '';
+      let i = 0;
+      isTyping = true;
 
-  let dialogVisible = false;
-  let currentMsg = 0;
-  let isTyping = false;
-
-  function typeWriter(text, element, delay = 35, callback) {
-    element.textContent = '';
-    let i = 0;
-    isTyping = true;
-
-    function typing() {
-      if (i < text.length) {
-        element.textContent += text.charAt(i);
-        i++;
-        setTimeout(typing, delay);
-      } else {
-        isTyping = false;
-        if (callback) callback();
+      function typing() {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+          setTimeout(typing, delay);
+        } else {
+          isTyping = false;
+          if (callback) callback();
+        }
       }
+
+      typing();
     }
 
-    typing();
-  }
+    npcIcon.addEventListener('click', () => {
+      if (isTyping) return;
 
-  npcIcon.addEventListener('click', () => {
-    if (isTyping) return; // evita que se repita el texto al hacer clic rápido
-
-    if (!dialogVisible) {
-      npcDialog.style.display = 'block';
-      currentMsg = 0;
-      typeWriter(messages[currentMsg], npcDialogText);
-      dialogVisible = true;
-    } else {
-      currentMsg++;
-      if (currentMsg < messages.length) {
-        typeWriter(messages[currentMsg], npcDialogText);
-      } else {
-        npcDialog.style.display = 'none';
-        dialogVisible = false;
+      if (!dialogVisible) {
+        npcDialog.style.display = 'block';
         currentMsg = 0;
+        typeWriter(messages[currentMsg], npcDialogText);
+        dialogVisible = true;
+      } else {
+        currentMsg++;
+        if (currentMsg < messages.length) {
+          typeWriter(messages[currentMsg], npcDialogText);
+        } else {
+          npcDialog.style.display = 'none';
+          dialogVisible = false;
+          currentMsg = 0;
+        }
       }
-    }
-  });
-</script>
-
+    });
+  </script>
 </body>
 </html>
