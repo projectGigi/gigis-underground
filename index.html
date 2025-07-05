@@ -282,14 +282,14 @@
     });
 
     const texts = {
-      es: <p>Bienvenidos a mi página personal (de desarrollador).</p>
+      es: `<p>Bienvenidos a mi página personal (de desarrollador).</p>
 <p>Es una especie de diario virtual donde quisiera colocar música que me gusta, y cosas de mis intereses relacionados con la programación y el anime.</p>
 <p>Un lugar seguro para poder expresarme y compartir las cosas que disfruto, así como ayudar a otros en su viaje.</p>
-<p>Si desean chatear o saber algo, pueden hablarme en Twitter.</p>,
-      en: <p>Welcome to my personal page (as a developer).</p>
+<p>Si desean chatear o saber algo, pueden hablarme en Twitter.</p>`,
+      en: `<p>Welcome to my personal page (as a developer).</p>
 <p>It's a kind of virtual diary where I want to share music I like, and things about my interests related to programming and anime.</p>
 <p>A safe place to express myself and share the things I enjoy, as well as help others on their journey.</p>
-<p>If you want to chat or know something, you can reach me on Twitter.</p>
+<p>If you want to chat or know something, you can reach me on Twitter.</p>`
     };
 
     let currentLang = 'es';
@@ -331,7 +331,7 @@
           const barWidth = canvas.width / bufferLength;
           for (let i = 0; i < bufferLength; i++) {
             const barHeight = dataArray[i] / 2;
-            ctx.fillStyle = rgb(${barHeight + 100},0,0);
+            ctx.fillStyle = `rgb(${barHeight + 100},0,0)`;
             ctx.fillRect(i * barWidth, canvas.height - barHeight, barWidth - 2, barHeight);
           }
         }
