@@ -21,7 +21,6 @@
 
     body.sidebar-open #menu-btn {
       left: 230px;
-      transition: left 0.3s;
     }
 
     #menu-btn {
@@ -35,7 +34,6 @@
       font-size: 16px;
       z-index: 1000;
       cursor: pointer;
-      transition: left 0.3s;
     }
 
     #sidebar {
@@ -99,6 +97,7 @@
 
     .main-content {
       flex: 1;
+      min-width: 260px;
     }
 
     .description {
@@ -137,12 +136,6 @@
       padding: 8px 16px;
       margin-bottom: 20px;
       border-radius: 6px;
-      transition: background-color 0.3s, color 0.3s;
-    }
-
-    #lang-toggle:hover {
-      background: #ff4444;
-      color: black;
     }
 
     .heart {
@@ -206,11 +199,6 @@
       border-radius: 4px;
     }
 
-    .custom-controls button:hover {
-      background-color: red;
-      color: black;
-    }
-
     .custom-controls input[type=range] {
       accent-color: red;
     }
@@ -220,30 +208,24 @@
       width: 100%;
     }
 
-    /* Ajustes para skin más grande, sin borde */
     #npc-skin {
       width: 276px;
       height: 368px;
       display: block;
       margin-bottom: 10px;
-      border-radius: 0; /* sin borde */
     }
 
-    /* Avatar original con borde y sombra, tamaño original */
     #npc-icon {
       width: 64px;
       height: 64px;
       border: 3px solid red;
       border-radius: 12px;
       box-shadow: 0 0 10px red;
-      flex-shrink: 0;
       position: relative;
-      z-index: 1700; /* para que esté encima del diálogo */
+      z-index: 1700;
       cursor: pointer;
-      user-select: none;
     }
 
-    /* Diálogo arriba del avatar, sin taparlo */
     #npc-dialog {
       position: fixed;
       bottom: 140px;
@@ -258,8 +240,35 @@
       color: #fff;
       box-shadow: 0 0 15px #cc44ff;
       display: none;
-      z-index: 1600; /* menos que el avatar */
+      z-index: 1600;
       pointer-events: auto;
+    }
+
+    /* --- Responsive --- */
+    @media screen and (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .profile {
+        width: 100%;
+      }
+
+      .music-player {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      #npc-dialog {
+        width: calc(100% - 40px);
+        left: 10px;
+        bottom: 120px;
+      }
     }
   </style>
 </head>
