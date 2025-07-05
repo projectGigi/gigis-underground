@@ -220,34 +220,27 @@
       width: 100%;
     }
 
-    /* Estilos para la skin de Minecraft en el diálogo */
-    #npc-dialog-container {
-      position: fixed;
-      bottom: 70px;
-      left: 20px;
-      z-index: 1500;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    #npc-icon {
-      width: 64px;
-      height: 64px;
-      border: 3px solid red;
-      border-radius: 12px;
-      box-shadow: 0 0 10px red;
-      flex-shrink: 0;
-    }
-
+    /* Nuevo estilo para la imagen skin.png más grande */
     #skin-icon {
-      width: 48px;
+      width: 138px;       /* aprox la mitad del ancho original para buen tamaño */
       height: auto;
       border: 3px solid #44cc44;
       border-radius: 8px;
       box-shadow: 0 0 8px #44cc44;
       flex-shrink: 0;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    /* Ajustamos el contenedor para que el icono y la skin estén juntos */
+    #npc-dialog-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: fixed;
+      bottom: 70px;
+      left: 20px;
+      z-index: 1500;
       cursor: pointer;
     }
   </style>
@@ -301,20 +294,6 @@
     </div>
   </div>
   <canvas id="visualizer"></canvas>
-
-  <div id="npc-dialog-container" role="region" aria-label="Diálogo de personajes">
-    <img id="npc-icon" src="perfil.jpg" alt="Avatar de Gigi">
-    <img id="skin-icon" src="skin.png" alt="Skin Minecraft de Gigi">
-  </div>
-
-  <div id="npc-dialog" role="dialog" aria-live="polite" aria-atomic="true"
-       style="position: fixed; bottom: 140px; left: 20px; width: 320px; padding: 15px; 
-              background: rgba(20, 0, 30, 0.95); border: 3px dashed #cc44ff; border-radius: 10px; 
-              font-family: 'Press Start 2P', cursive; font-size: 11px; color: #fff; 
-              box-shadow: 0 0 15px #cc44ff; display: none; z-index: 1600;">
-    <div style="font-weight: bold; margin-bottom: 8px;" id="npc-dialog-name">Gigi</div>
-    <div id="npc-dialog-text"></div>
-  </div>
 
   <script>
     const sidebar = document.getElementById('sidebar');
@@ -428,32 +407,35 @@
         draw();
       }
     }
+  </script>
 
-    // Diálogo NPC
+  <div id="npc-dialog-container" role="region" aria-label="Diálogo de personajes">
+    <img id="npc-icon" src="perfil.jpg" alt="Avatar de Gigi">
+    <img id="skin-icon" src="skin.png" alt="Skin Minecraft de Gigi">
+  </div>
 
+  <div id="npc-dialog" role="dialog" aria-live="polite" aria-atomic="true"
+       style="position: fixed; bottom: 140px; left: 20px; width: 320px; padding: 15px; 
+              background: rgba(20, 0, 30, 0.95); border: 3px dashed #cc44ff; border-radius: 10px; 
+              font-family: 'Press Start 2P', cursive; font-size: 11px; color: #fff; 
+              box-shadow: 0 0 15px #cc44ff; display: none; z-index: 1600;">
+    <div style="font-weight: bold; margin-bottom: 8px;">Gigi</div>
+    <div id="npc-dialog-text"></div>
+  </div>
+
+  <script>
     const npcIcon = document.getElementById('npc-icon');
-    const skinIcon = document.getElementById('skin-icon');
     const npcDialog = document.getElementById('npc-dialog');
     const npcDialogText = document.getElementById('npc-dialog-text');
-    const npcDialogName = document.getElementById('npc-dialog-name');
 
-    // Mensajes para el avatar "Gigi"
-    const messagesGigi = [
+    const messages = [
       "Estoy estudiando animación digital, pero me gusta mucho programar cosas.",
       "Me gusta mucho Frieren.",
       "Mi bebida favorita es la Lemon Stone original jiji."
     ];
 
-    // Mensajes para la skin Minecraft
-    const messagesSkin = [
-      "¡Hola! Soy la skin de Minecraft de Gigi.",
-      "Puedes usarme para crear mundos y aventuras.",
-      "¡Gracias por visitarme!"
-    ];
-
     let dialogVisible = false;
     let currentMsg = 0;
-    let currentMessages = messagesGigi;
     let isTyping = false;
 
     function typeWriter(text, element, delay = 35, callback) {
@@ -475,33 +457,24 @@
       typing();
     }
 
-    function openDialog(messages, name) {
+    npcIcon.addEventListener('click', () => {
       if (isTyping) return;
-      npcDialogName.textContent = name;
+
       if (!dialogVisible) {
         npcDialog.style.display = 'block';
         currentMsg = 0;
-        currentMessages = messages;
-        typeWriter(currentMessages[currentMsg], npcDialogText);
+        typeWriter(messages[currentMsg], npcDialogText);
         dialogVisible = true;
       } else {
         currentMsg++;
-        if (currentMsg < currentMessages.length) {
-          typeWriter(currentMessages[currentMsg], npcDialogText);
+        if (currentMsg < messages.length) {
+          typeWriter(messages[currentMsg], npcDialogText);
         } else {
           npcDialog.style.display = 'none';
           dialogVisible = false;
           currentMsg = 0;
         }
       }
-    }
-
-    npcIcon.addEventListener('click', () => {
-      openDialog(messagesGigi, "Gigi");
-    });
-
-    skinIcon.addEventListener('click', () => {
-      openDialog(messagesSkin, "Skin Minecraft");
     });
   </script>
 </body>
